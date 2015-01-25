@@ -1,0 +1,19 @@
+{
+  "name": "Newsfeed",
+  "version": "1.0.0",
+  "description": "MEAN stack web chat",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/StefanSinapov/Newsfeed.git"
+  },
+  "author": "SS, GS",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/StefanSinapov/Newsfeed/issues"
+  },
+  "homepage": "https://github.com/StefanSinapov/Newsfeed"
+}
