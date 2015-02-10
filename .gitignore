@@ -29,3 +29,6 @@ node_modules
 
 # WebStorm
 .idea
+
+# Bower
+public/lib/*

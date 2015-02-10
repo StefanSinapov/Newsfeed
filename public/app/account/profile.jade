@@ -1,0 +1,46 @@
+.container
+    h1.page-header Edit Profile
+    .row
+        form.form-horizontal(name="updateUserForm")
+            .col-md-4.col-sm-6.col-xs-12
+                .text-center
+                    // TODO: fix avatar url
+                    img.avatar.img-thumbnail(ng-src='images/{{ user.imageUrl }}', alt='avatar')
+                    h6 Upload a different photo...
+                    input.text-center.center-block.well.well-sm(type="file" file-model="user.image" accept="image/*")
+            .col-md-8.col-sm-6.col-xs-12.personal-info
+                h3 Personal info
+                .form-group
+                    label.col-lg-3.control-label First name:
+                    .col-lg-8
+                        input.form-control(ng-model='user.firstName', type='text', required)
+                .form-group
+                    label.col-lg-3.control-label Last name:
+                    .col-lg-8
+                        input.form-control(ng-model='user.lastName', type='text', required)
+                .form-group
+                    label.col-lg-3.control-label City:
+                    .col-lg-8
+                        input.form-control(ng-model='user.city', type='text')
+                .form-group
+                    label.col-lg-3.control-label Phone:
+                    .col-lg-8
+                        input.form-control(ng-model='user.phone', type='text')
+                .form-group
+                    label.col-md-3.control-label Username:
+                    .col-md-8
+                        input.form-control(ng-model='user.username', disabled , type='text', required)
+                .form-group
+                    label.col-md-3.control-label Password:
+                    .col-md-8
+                        input.form-control(ng-model='user.password', type='password')
+                .form-group
+                    label.col-md-3.control-label Confirm password:
+                    .col-md-8
+                        input.form-control(ng-model='user.confirmPassword', type='password')
+                .form-group
+                    label.col-md-3.control-label
+                    .col-md-8
+                        button.btn.btn-primary(ng-click="submit(user)", ng-disabled="updateUserForm.$invalid") Update
+                        span
+                        a.btn.btn-default(href='#/', type='reset') Cancel

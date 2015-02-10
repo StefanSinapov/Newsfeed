@@ -1,0 +1,28 @@
+ul.nav.navbar-nav.navbar-right(ng-controller="LoginCtrl")
+    li.dropdown(ng-show="identity.isAuthenticated()")
+        a.dropdown-toggle(href="", data-toggle="dropdown")
+            span.fa.fa-user
+            | {{ ' ' + identity.currentUser.firstName + ' ' + identity.currentUser.lastName + ' ' }}
+            span.caret
+        ul.dropdown-menu
+            li(ng-show="identity.currentUser.isAdmin()")
+                a(href="#/admin/users")
+                    span.fa.fa-fw.fa-gear
+                    | Administration
+            li(ng-show="identity.isAuthenticated()")
+                a(href="#/profile")
+                    span.fa.fa-fw.fa-user
+                    | Profile
+            li(ng-show="identity.isAuthenticated()")
+                a(href="#/settings")
+                    span.fa.fa-fw.fa-gear
+                    | Settings
+            li.divider
+            li
+                a(href="#" ng-click="logout()")
+                    span.fa.fa-fw.fa-power-off
+                    | Sign Out
+    li(ng-hide="identity.isAuthenticated()")
+        a(href="#/signup") Register
+    li(ng-hide="identity.isAuthenticated()")
+        a(href="#/login") Sign In
