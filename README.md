@@ -15,7 +15,7 @@ After the install process is over, you'll be able to run the  application:
 ```shell
   $ node server.js
 ```
-Application should run on port 3030, so in your browser just go to http://localhost:3030
+Application should run on port 3030, so in your browser just go to [http://localhost:3030](http://localhost:3030)
 
 ## Contributors
  - [Stefan Sinapov](http://www.github.com/StefanSinapov)
