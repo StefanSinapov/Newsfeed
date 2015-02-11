@@ -10,7 +10,7 @@ module.exports.init = function () {
         username: { type: String, require: '{PATH} is required', unique: true },
         salt: String,
         hashPass: String,
-        avatarUrl: String,
+        avatarUrl: { type: String, default: 'default-avatar.jpg'},
         blockedUsers: [{
             username: String
         }],
