@@ -20,13 +20,8 @@ module.exports = function (config) {
         console.log('Database error: ' + err);
     });
 
-    //Todo: init data here after creating
-
     Models.User.init();
+    Models.Message.init();
 
-    /*Models.Message.init();
-    Models.User.init();
-    Models.Category.init();
-
-    Models.Category.seedCategories();*/
+    /*Models.Category.seedCategories();*/
 };
