@@ -1,0 +1,30 @@
+user document
+{
+	_id: <ObjectId>,
+	username: <String>,     // db.collection.ensureIndex( { username: 1 }, { unique: true } )
+	passwordHash: <String>,
+	hash: <String>,
+	avatarUrl: <String>,
+	blockedUsers: [{
+						username: <String>  // here we keep blocked users
+					}],
+	stats: {
+		blocked: <Number>,
+		likes: <Number>
+	}
+}
+
+message document 
+{
+	_id: <ObjectId>,
+	username: <String>,
+	avatarUrl: <String>
+	content: <String>,
+	datePublished: <Date>,
+	likes: [{
+		username: <ObjectId> // пазим id-та на всичките юзери, които са харесали съобщение
+		isCreatorNotified: <Boolean> // ще използваме това по-късно за нотификации
+	}]
+}
+	
+message.ensureIngex({ username: 1, date: -1 })

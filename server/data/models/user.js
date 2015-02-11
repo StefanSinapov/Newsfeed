@@ -8,12 +8,16 @@ var User;
 module.exports.init = function () {
     var userSchema = mongoose.Schema({
         username: { type: String, require: '{PATH} is required', unique: true },
-        firstName: { type: String, require: '{PATH} is required' },
-        lastName: { type: String, require: '{PATH} is required' },
         salt: String,
         hashPass: String,
-        roles: [String],
-        imageUrl: String
+        avatarUrl: String,
+        blockedUsers: [{
+            username: String
+        }],
+        stats: {
+            blocked: Number,
+            likes: Number
+        }
     });
 
     userSchema.method({
