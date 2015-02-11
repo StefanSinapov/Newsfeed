@@ -26,4 +26,11 @@ app.controller('LoginCtrl', function ($scope, $location, notifier, identity, aut
             notifier.error('Username and password are required fields!');
         }
     };
+
+    $scope.logout = function() {
+        auth.logout().then(function() {
+            notifier.success('Successful logout!');
+            $location.path('#/');
+        });
+    };
 });

@@ -3,12 +3,13 @@
 var fs = require("fs");
 /*var formidable = require('formidable');*/
 var encryption = require('../utilities/encryption');
-var User = require('mongoose').model('User');
-var DEFAULT_PAGE_SIZE = 10;
+/*var User = require('mongoose').model('User');*/
+var users = require('../data/users');
+/*var DEFAULT_PAGE_SIZE = 10;
 var DEFAULT_UPLOAD_DIRECTORY = './public/images';
-var DEFAULT_AVATAR = 'default-avatar.jpg';
+var DEFAULT_AVATAR = 'default-avatar.jpg';*/
 
-var getImageGuid = function (image) {
+/*var getImageGuid = function (image) {
     var guidIndex = image.path.lastIndexOf('/');
     if (guidIndex < 0) {
         var guidIndex = image.path.lastIndexOf('\\');
@@ -16,41 +17,43 @@ var getImageGuid = function (image) {
 
     var guid = image.path.substring(guidIndex + 1);
     return guid;
-};
+};*/
 
 module.exports = {
     createUser: function (req, res, next) {
+
+        if(req.body.password !== req.body.confirmPassword){
+            res.status(400);
+            res.send({ reason: "Password and confirm password must be the same!"});
+            return;
+        }
+
         var newUserData = {
-            firstName: req.body.firstName,
-            lastName: req.body.lastName,
-            username: req.body.username,
-            phone: req.body.phone,
-            city: req.body.city,
-            imageUrl: DEFAULT_AVATAR
+            username: req.body.username
         };
 
         newUserData.salt = encryption.generateSalt();
         newUserData.hashPass = encryption.generateHashedPassword(newUserData.salt, req.body.password);
-        newUserData.roles = ['user'];
 
-        User.create(newUserData, function (err, user) {
+        users.create(newUserData, function (err, user) {
             if (err) {
                 console.log('Failed to register new user: ' + err);
                 res.status(400);
-                res.send(false);
+                res.send({ reason: err.toString() });
                 return;
             }
 
             req.logIn(user, function (err) {
                 if (err) {
                     res.status(400);
-                    return res.send({ reason: err.toString() });
+                    res.send({ reason: err.toString() });
+                    return;
                 }
 
                 res.send(user);
             });
         });
-    },
+    }
     /*updateUser: function (req, res, next) {
 
         if (!fs.existsSync(DEFAULT_UPLOAD_DIRECTORY)) {
@@ -107,7 +110,7 @@ module.exports = {
                 });
             });
         });
-    },*/
+    },
     getAllUsers: function (req, res, next) {
 
         var page = Math.max(req.query.page, 1);
@@ -216,5 +219,5 @@ module.exports = {
                     });
                 }
             });
-    }
+    }*/
 };

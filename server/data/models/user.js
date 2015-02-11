@@ -15,8 +15,8 @@ module.exports.init = function () {
             username: String
         }],
         stats: {
-            blocked: Number,
-            likes: Number
+            blocked: { type: Number, default: 0 },
+            likes: { type: Number, default: 0}
         }
     });
 
@@ -25,6 +25,11 @@ module.exports.init = function () {
             return encryption.generateHashedPassword(this.salt, password) === this.hashPass;
         }
     });
+
+    userSchema.virtual('stats.rating')
+        .get(function(){
+            return (this.stats.likes / Math.sqrt(this.stats.blocked));
+        });
 
     User = mongoose.model('User', userSchema);
 };

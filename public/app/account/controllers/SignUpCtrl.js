@@ -25,16 +25,7 @@ app.controller('SignUpCtrl', function ($scope, $location, auth, notifier) {
             }
         }
         else {
-            notifier.error('First name, Last name, Username and password are required fields.');
+            notifier.error('Username and password are required fields.');
         }
-    };
-
-    $scope.logout = function() {
-        auth.logout().then(function() {
-            notifier.success('Successful logout!');
-            $scope.user.username = '';
-            $scope.user.password = '';
-            $location.path('/');
-        });
     };
 });

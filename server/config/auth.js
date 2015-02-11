@@ -19,8 +19,10 @@ module.exports = {
                 }
 
                 // The username will be sent inside the token
-                user.token = socket.getToken({username: user.username});
-                res.send({success: true, user: user, token: user.token});
+               /* user.token = socket.getToken({username: user.username});
+                res.send({success: true, user: user, token: user.token});*/
+
+                res.send({success: true, user: user});
             });
         });
 

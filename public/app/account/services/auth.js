@@ -26,8 +26,8 @@ app.factory('auth', function ($http, $q, identity, UsersResource, notifier) {
                     var user = new UsersResource();
                     angular.extend(user, response.user);
                     identity.currentUser = user;
-                    identity.token = response.token;
-                    identity.socket = connect(response.token);
+                    /*identity.token = response.token;
+                    identity.socket = connect(response.token);*/
                     deferred.resolve(true);
                 }
                 else {

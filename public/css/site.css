@@ -1,0 +1,12 @@
+body {
+  padding-top: 80px;
+}
+.toast-top-right {
+  top: 70px;
+}
+input.ng-dirty.ng-invalid {
+  background-color: #ffc0cb !important;
+}
+input.ng-dirty.ng-valid.validity {
+  background-color: #8fbc8f !important;
+}

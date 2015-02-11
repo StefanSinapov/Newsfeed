@@ -2,7 +2,7 @@ ul.nav.navbar-nav.navbar-right(ng-controller="LoginCtrl")
     li.dropdown(ng-show="identity.isAuthenticated()")
         a.dropdown-toggle(href="", data-toggle="dropdown")
             span.fa.fa-user
-            | {{ ' ' + identity.currentUser.firstName + ' ' + identity.currentUser.lastName + ' ' }}
+            | {{ ' ' + identity.currentUser.username + ' ' }}
             span.caret
         ul.dropdown-menu
             li(ng-show="identity.currentUser.isAdmin()")
