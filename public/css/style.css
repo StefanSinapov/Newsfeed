@@ -1,0 +1,386 @@
+body {
+    background: #9ED3FD;
+    font-family: 'Fira Sans', sans-serif;
+    font-size: 16px;
+    padding: 0;
+    margin: 0;
+    color: #FFF;
+}
+
+img {
+    border: none;
+}
+
+p {
+    margin: 0;
+}
+
+a {
+    color: #845ccf;
+    text-decoration: none;
+    text-shadow: none;
+}
+
+hr {
+    border: none;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.4);
+    margin: 15px 0;
+}
+
+a:hover {
+    border-bottom: 1px dotted;
+}
+
+a.neutral {
+    border: none;
+}
+
+.small {
+    font-size: 13px;
+}
+
+span.title {
+    font-size: 24px;
+    font-weight: bold;
+    text-shadow: 0 1px 0 #77bff3;
+}
+
+.left {
+    float: left;
+}
+
+.right {
+    float: right;
+}
+
+.ov-hidden {
+    overflow: hidden;
+}
+
+#sky {
+    position: absolute;
+    width: 100%; height: 300px;
+    background: #d6ecfc;
+    background: -moz-linear-gradient(top,  #d6ecfc 0%, #9ed3fd 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#d6ecfc), color-stop(100%,#9ed3fd));
+    background: -webkit-linear-gradient(top,  #d6ecfc 0%,#9ed3fd 100%);
+    background: -o-linear-gradient(top,  #d6ecfc 0%,#9ed3fd 100%);
+    background: -ms-linear-gradient(top,  #d6ecfc 0%,#9ed3fd 100%);
+    background: linear-gradient(to bottom,  #d6ecfc 0%,#9ed3fd 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#d6ecfc', endColorstr='#9ed3fd', GradientType=0);
+}
+
+#wrapper {
+    position: relative;
+    width: 900px;
+    height: auto;
+    margin: 0 auto;
+}
+
+#header {
+    padding: 50px 0 10px 0;
+    overflow: hidden;
+}
+
+#header.home {
+    padding: 100px 0;
+    text-align: center;
+}
+
+#main {
+    padding: 25px 0;
+    overflow: hidden;
+}
+
+#footer {
+    font-size: 14px;
+    margin-bottom: 25px;
+    text-align: center;
+    text-shadow: 0 1px 0 #66b1e7;
+}
+
+#footer > p {
+    margin: 3px 0;
+}
+
+input, textarea, button {
+    font-family: 'Fira Sans', sans-serif;
+    font-size: 17px;
+    border: none;
+    padding: 9px 14px;
+    outline: none;
+    border-radius: 5px;
+    border-bottom: 3px solid transparent;
+    transition: 0.3s ease;
+}
+
+input:invalid {
+    box-shadow: none;
+}
+
+input, textarea {
+    background: #FFF;
+    border-bottom-color: #d6ecfc;
+    color: #444;
+}
+
+input:hover, textarea:hover {
+    border-bottom-color: #77bff3;
+}
+
+input:focus, textarea:focus {
+    border-bottom-color: #2ba6ff;
+}
+
+input.editable {
+    border: 1px dashed #FFF;
+    background: none;
+    font-size: inherit;
+    color: inherit;
+    padding: 3px 4px;
+}
+
+button {
+    color: #FFF;
+    background: #a270ff;
+    border-bottom-color: #845ccf;
+    padding: 10px 30px 8px 30px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #c067ea;
+    border-bottom-color: #9752b8;
+}
+
+form div {
+    margin-bottom: 15px;
+}
+
+fieldset {
+    border: none;
+    padding: 0;
+}
+
+legend {
+    font-size: 26px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #FFF;
+    text-shadow: 0 1px 0 #77bff3;
+}
+
+#auth-form {
+    width: 300px;
+    margin: 0 auto;
+}
+
+#auth-form input {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/***/
+
+#prof-thumb {
+    border-radius: 50px;
+    vertical-align: middle;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+#options {
+    margin-top: 4px;
+    overflow: hidden;
+    float: left;
+}
+
+#avatar {
+    width: 150px;
+    height: 150px;
+    border-bottom: 5px solid #d6ecfc;
+    border-radius: 10px;
+    display: block;
+}
+
+#avatar.editable {
+    border: 2px dashed #FFF;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+#general-info {
+    background: rgba(63, 37, 91, 0.15);
+    width: 735px;
+    min-height: 150px;
+    overflow: hidden;
+    padding: 10px 12px;
+    border-radius: 10px;
+    box-shadow: inset 0 2px 5px 0 rgba(0, 0, 0, 0.2);
+    margin-left: 15px;
+    box-sizing: border-box;
+}
+
+#general-info > p {
+    margin-bottom: 10px;
+}
+
+#general-info > .name {
+    font-size: 24px;
+}
+
+#general-info span.title {
+    color: rgba(255, 255, 255, 0.7);
+    margin-right: 17px;
+}
+
+/***/
+
+.button {
+    position: relative;
+    background: url(../images/buttons.png);
+    width: 38px; height: 38px;
+    margin-right: 10px;
+    float: left;
+    cursor: pointer;
+}
+
+.button.users {
+    background-position: 38px 0;
+}
+
+.button.users:hover {
+    background-position: 38px 38px;
+}
+
+.button.logout {
+    background-position: 76px 0;
+}
+
+.button.logout:hover {
+    background-position: 76px 38px;
+}
+
+.button.notific {
+    background-position: 0 0;
+}
+
+.button.notific:hover {
+    background-position: 0 38px;
+}
+
+.button.notific > .counter {
+    position: absolute;
+    bottom: -3px;
+    right: -5px;
+    background: #e63160;
+    padding: 1px 4px;
+}
+
+/****/
+
+#status-field {
+    box-sizing: border-box;
+    margin-bottom: 5px;
+    max-height: 100px;
+    min-height: 40px;
+    resize: vertical;
+    width: 100%;
+}
+
+.status, .user-thumb {
+    background: #FFF;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.15);
+}
+
+.status {
+    margin-bottom: 25px;
+    color: #444;
+}
+
+.status > .usr-info {
+    padding: 10px 15px;
+    border-bottom: 1px solid #DDD;
+    overflow: hidden;
+}
+
+.status > .usr-info > .info {
+    margin-left: 10px;
+    float: left;
+}
+
+.status img {
+    border-radius: 35px;
+    vertical-align: middle;
+}
+
+.status .small {
+    color: #666;
+    margin-right: 10px;
+}
+
+.status > .content {
+    padding: 15px 20px;
+}
+
+.status .stat-btn {
+    position: relative;
+    background: url(../images/status_but.png);
+    width: 20px; height: 31px;
+    opacity: 0.4;
+    margin-left: 10px;
+    transition: 0.3s ease;
+    float: left;
+    cursor: pointer;
+}
+
+.status .stat-btn:hover, .status .stat-btn.clicked {
+    opacity: 0.8;
+}
+
+.status .stat-btn.like {
+    background-position: right;
+}
+
+.status .stat-btn.mute {
+    background-position: left;
+}
+
+.status .likes-num {
+    margin-top: 5px;
+    font-size: 18px;
+    float: left;
+    color: #888;
+}
+
+/***/
+
+.user-thumb {
+    position: relative;
+    width: 120px;
+    margin: 10px;
+    float: left;
+    padding: 20px;
+    text-align: center;
+    overflow: hidden;
+}
+
+.user-thumb::after {
+    content: "";
+    position: absolute;
+    width: 20px; height: 100px;
+    margin-top: -100px;
+    right: 0;
+    display: block;
+    box-shadow: inset -10px 0 10px 0 rgba(255, 255, 255, 0.95);
+}
+
+.user-thumb > img {
+    border-radius: 40px;
+    margin-bottom: 7px;
+}
+
+.user-thumb > .small {
+    color: #666;
+}

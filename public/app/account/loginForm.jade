@@ -1,0 +1,11 @@
+form#auth-form(name="loginForm")
+    fieldset
+        legend Вход у системо
+        div
+            input(type='text', placeholder='Потребител', ng-model="user.username", required="required")
+        div
+            input(type='password', placeholder='Парола', ng-model="user.password", required="required")
+        div
+            button(type='submit', ng-click='login(user, loginForm)') Влео
+        div
+            a(href="#/signup") еле се регистрирвай

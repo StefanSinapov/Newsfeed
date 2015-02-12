@@ -1,14 +1,17 @@
-doctype
+doctype html
 html
-    head
-        title NewsFeed
-        meta(charset='utf-8')
-        link(href="images/favicon.ico" rel="shortcut icon" type="image/x-icon")
-        link(rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.css")
+    head(lang='en')
+        meta(charset='UTF-8')
+        title Баси Големеа Фийд Чуек
+        link(rel='icon', href='images/favicon.png', type='image/x-icon')
         link(rel="stylesheet" href="/lib/toastr/toastr.css")
-        link(rel="stylesheet" href="/css/site.css")
+        link(rel='stylesheet', href='css/style.css')
+        link(href='http://fonts.googleapis.com/css?family=Fira+Sans:400,500&subset=latin,cyrillic', rel='stylesheet', type='text/css')
+
     body(ng-app="app")
-        block main-content
+        div#sky
+        div#wrapper
+            block main-content
 
         include scripts
         include currentUser

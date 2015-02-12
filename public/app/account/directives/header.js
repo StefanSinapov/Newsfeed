@@ -2,10 +2,10 @@
 
 "use strict";
 
-app.directive("authBar", function() {
+app.directive("header", function() {
     return {
         restrict: "A",
-        templateUrl: "/partials/account/auth-bar",
+        templateUrl: "/partials/account/header",
         replace: true
     };
 });

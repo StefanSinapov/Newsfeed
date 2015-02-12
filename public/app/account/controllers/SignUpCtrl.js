@@ -3,11 +3,9 @@
 'use strict';
 
 app.controller('SignUpCtrl', function ($scope, $location, auth, notifier) {
-    $scope.signup = function (user, singUpForm) {
-        if (singUpForm.$valid) {
-
+    $scope.signup = function (user, signUpForm) {
+        if (signUpForm.$valid) {
             if (user.password === user.confirmPassword) {
-
                 auth.signup(user).then(function () {
                     notifier.success('Registration successful!');
                     $location.path('/');

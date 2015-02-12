@@ -1,4 +1,23 @@
-.container
-    .jumbotron
-        h1 Newsfeed
-        h2 simple MEAN stack application
+div(ng-controller="LoginCtrl")
+    div(ng-hide="identity.isAuthenticated()")
+        div(login-form)
+    div(ng-show="identity.isAuthenticated()")
+        #status
+            textarea#status-field(rows='1', placeholder='Мисълта ти')
+            button Сп&ograve;дели
+        hr
+        article.status
+            .usr-info
+                img.left(src='http://gwally.com/avatars/images/space_skeleton_150.jpg', width='35', height='35', alt='')
+                p.info
+                    a(href='') pesho_calibrata
+                    br
+                    span.small 123 поста
+                    span.small 15 рейт
+                .right
+                    p.likes-num 52
+                    .stat-btn.like(title='Харесай')
+                    .stat-btn.mute(title='Заглуши')
+            .content
+                | Test 1 2 3 яаояаоояоаиш sfdsfs e wr
+                a(href='') #tag
