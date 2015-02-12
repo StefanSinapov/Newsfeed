@@ -7,9 +7,10 @@ module.exports = function (app) {
 
     // Users
     app.route('/api/users')
-        .post(controllers.users.createUser);
+        .post(controllers.users.createUser)
+        .put(auth.isAuthenticated, controllers.users.updateUser);
     /*   .get(controllers.users.getAllUsers)
-        .put(auth.isAuthenticated, controllers.users.updateUser);*/
+        ;*/
 
     app.post('/login', auth.login);
     app.post('/logout', auth.logout);

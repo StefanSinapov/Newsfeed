@@ -8,17 +8,25 @@ app.controller('ProfileCtrl', function ($scope, $location, auth, usersData, iden
         username: identity.currentUser.username,
         firstName: identity.currentUser.firstName,
         lastName: identity.currentUser.lastName,
-        imageUrl: identity.currentUser.imageUrl
+        avatarUrl: identity.currentUser.avatarUrl
     };
 
     // TODO: fix logout after update profile
     $scope.update = function (updatedUser) {
-        usersData.update(updatedUser).then(function () {
-            notifier.success('Updated successfully!');
-            auth.logout();
-            $location.path('/login');
+        usersData.update(updatedUser).then(function (data) {
+            console.log(data);
+            if(data.reason){
+                notifier.success(data.reason);
+            }
+            if(data.avatarUrl){
+                $scope.user.avatarUrl = data.avatarUrl;
+            }
+            //auth.logout();
+            //$location.path('/login');
         }, function (err) {
-            notifier.error(err.message);
+            if(err.reason){
+                notifier.succes(err.reason);
+            }
         });
     };
 });

@@ -6,6 +6,9 @@ module.exports = {
     create: function(user, callback) {
         User.create(user, callback);
     },
+    findById: function(id, callback){
+        User.findOne({_id: id}).exec(callback);
+    },
     checkIfUsernameIsFree: function(username, callback){
         User.find({username : username}, function (err, data) {
             if (!data.length){

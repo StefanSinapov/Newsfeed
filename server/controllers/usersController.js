@@ -1,23 +1,23 @@
 'use strict';
 
 var fs = require("fs");
-/*var formidable = require('formidable');*/
+var formidable = require('formidable');
 var encryption = require('../utilities/encryption');
 /*var User = require('mongoose').model('User');*/
 var users = require('../data/users');
-/*var DEFAULT_PAGE_SIZE = 10;
+var messages = require('../data/messages');
+/*var DEFAULT_PAGE_SIZE = 10;*/
 var DEFAULT_UPLOAD_DIRECTORY = './public/images';
-var DEFAULT_AVATAR = 'default-avatar.jpg';*/
+var DEFAULT_AVATAR = 'default-avatar.jpg';
 
-/*var getImageGuid = function (image) {
+var getImageGuid = function (image) {
     var guidIndex = image.path.lastIndexOf('/');
     if (guidIndex < 0) {
-        var guidIndex = image.path.lastIndexOf('\\');
+        guidIndex = image.path.lastIndexOf('\\');
     }
 
-    var guid = image.path.substring(guidIndex + 1);
-    return guid;
-};*/
+    return image.path.substring(guidIndex + 1);
+};
 
 module.exports = {
     createUser: function (req, res, next) {
@@ -53,13 +53,13 @@ module.exports = {
                 res.send(user);
             });
         });
-    }
-    /*updateUser: function (req, res, next) {
+    },
+    updateUser: function (req, res, next) {
 
         if (!fs.existsSync(DEFAULT_UPLOAD_DIRECTORY)) {
             fs.mkdirSync(DEFAULT_UPLOAD_DIRECTORY);
         }
-
+        var isNewAvatar = false;
         var form = new formidable.IncomingForm();
         form.encoding = 'utf-8';
         form.uploadDir = DEFAULT_UPLOAD_DIRECTORY;
@@ -67,32 +67,28 @@ module.exports = {
 
         form.parse(req, function (err, fields, files) {
 
-            User.findOne({ _id: fields._id }).exec(function (err, user) {
+            users.findById(fields._id, function (err, user) {
                 if (err || !user) {
-                    res.status(400).send('Error updating user: ' + err);
+                    res.status(400).send({reason: 'Error updating user: ' + err});
                     return;
                 }
 
-                user.firstName = fields.firstName;
-                user.lastName = fields.lastName;
-                user.phone = fields.phone;
-                user.city = fields.city;
-
                 if (files.image) {
 
-                    if (process.env.NODE_ENV) {
-                        return res.status(403).send({message: 'Changing profile photos has been disabled for security reasons!'});
-                    }
+                   /* if (process.env.NODE_ENV) {
+                        return res.status(403).send({reason: 'Changing profile photos has been disabled for security reasons!'});
+                    }*/
 
                     // removes the old image
-                    var oldImagePath = DEFAULT_UPLOAD_DIRECTORY + '/' + user.imageUrl;
-                    if (user.imageUrl !== DEFAULT_AVATAR && fs.existsSync(oldImagePath)) {
+                    var oldImagePath = DEFAULT_UPLOAD_DIRECTORY + '/' + user.avatarUrl;
+                    if (user.avatarUrl !== DEFAULT_AVATAR && fs.existsSync(oldImagePath)) {
                         fs.unlink(oldImagePath);
                     }
 
                     // set the new imageUrl
                     var newImageGuid = getImageGuid(files.image);
-                    user.imageUrl = newImageGuid;
+                    user.avatarUrl = newImageGuid;
+                    isNewAvatar = true;
                 }
 
                 if (fields.password && fields.password.length > 5) {
@@ -102,15 +98,20 @@ module.exports = {
 
                 user.save(function (err, updatedUser, numberAffected) {
                     if (err) {
-                        res.status(400).send('Error updating user: ' + err);
+                        res.status(400).send({reason: 'Error updating user: ' + err});
                         return;
                     }
 
-                    res.status(200).send('User updated successfully!');
+                    if(isNewAvatar){
+                        messages.updateAvatars(updatedUser.username, updatedUser.avatarUrl);
+                    }
+
+                    res.status(200).send({avatarUrl: updatedUser.avatarUrl, reason: 'User updated successfully!'});
                 });
             });
         });
-    },
+    }
+    /*,
     getAllUsers: function (req, res, next) {
 
         var page = Math.max(req.query.page, 1);
