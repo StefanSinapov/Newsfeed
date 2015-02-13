@@ -130,10 +130,54 @@ module.exports = {
                 }
             });*/
     },
-    blockUser: function(req, res, next){
+    blockUser: function (req, res, next) {
+        var currentUser = req.user;
+        var blockedUsername = req.params.username;
 
+        users.addBlockedUsername(currentUser.username, blockedUsername, function (err, currentUser) {
+
+            if (err) {
+                console.log('Failed to add blocked username to collection ' + err);
+                res.status(400);
+                res.send({reason: 'Failed to add blocked username to collection'});
+                return;
+            }
+
+            users.addBlockPoint(blockedUsername, function (err, blockedUser) {
+                if (err) {
+                    console.log('Failed to increase block points' + err);
+                    res.status(400);
+                    res.send({reason: 'Failed to increase block points'});
+                    return;
+                }
+
+                res.status(200);
+                res.send({reason: blockedUsername + ' blocked successfully'});
+            });
+        });
     },
     unBlockUser: function(req, res, next){
+        var currentUser = req.user;
+        var blockedUsername = req.params.username;
 
+        users.removeBlockedUsername(currentUser.username, blockedUsername, function(err, currentUser){
+            if(err){
+                console.log('Failed to remove blocked username from collection ' + err);
+                res.status(400);
+                res.send({reason: 'Failed to remove block'});
+            }
+
+            users.removeBlockPoint(blockedUsername, function(err, blockedUser){
+                if(err){
+                    console.log('Failed to decrease block points ' + err);
+                    res.status(400);
+                    res.send({reason: 'Failde to decrease block points'});
+                    return;
+                }
+
+                res.status(200);
+                res.send({reason: blockedUsername + ' unblocked successfully'});
+            });
+        });
     }
 };
