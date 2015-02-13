@@ -232,6 +232,7 @@ legend {
 
 #general-info span.title {
     color: rgba(255, 255, 255, 0.7);
+    font-size: inherit;
     margin-right: 17px;
 }
 

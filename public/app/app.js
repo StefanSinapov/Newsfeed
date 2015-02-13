@@ -37,6 +37,11 @@ app.config(function ($routeProvider) {
             controller: 'ProfileCtrl',
             resolve: routeUserChecks.authenticated
         })
+        .when('/edit-profile', {
+            templateUrl: 'partials/account/editProfile',
+            controller: 'ProfileCtrl',
+            resolve: routeUserChecks.authenticated
+        })
         .otherwise({
             redirectTo: '/'
         });

@@ -1,30 +1,14 @@
-.container
-    h1.page-header Edit Profile
-    .row
-        form.form-horizontal(name="updateUserForm")
-            .col-md-4.col-sm-6.col-xs-12
-                .text-center
-                    // TODO: fix avatar url
-                    img.avatar.img-thumbnail(ng-src='images/{{ user.avatarUrl }}', alt='avatar')
-                    h6 Upload a different photo...
-                    input.text-center.center-block.well.well-sm(type="file" file-model="user.image" accept="image/*")
-            .col-md-8.col-sm-6.col-xs-12.personal-info
-                h3 Personal info
-                .form-group
-                    label.col-md-3.control-label Username:
-                    .col-md-8
-                        input.form-control(ng-model='user.username', disabled , type='text', required)
-                .form-group
-                    label.col-md-3.control-label Password:
-                    .col-md-8
-                        input.form-control(ng-model='user.password', type='password')
-                .form-group
-                    label.col-md-3.control-label Confirm password:
-                    .col-md-8
-                        input.form-control(ng-model='user.confirmPassword', type='password')
-                .form-group
-                    label.col-md-3.control-label
-                    .col-md-8
-                        button.btn.btn-primary(ng-click="update(user)", ng-disabled="updateUserForm.$invalid") Update
-                        span
-                        a.btn.btn-default(href='#/', type='reset') Cancel
+img#avatar.left(src='http://gwally.com/avatars/images/space_skeleton_150.jpg', width='150', height='150', alt='avatar', ng-src='images/{{ user.avatarUrl }}')
+#general-info.left
+    p.name {{ user.username }}
+    p
+        span.title Поща
+        | {{ user.email }}
+    p
+        span.title Постове
+        | {{ user.posts }}
+    p
+        span.title Рейтинг
+        | {{ user.rating }}
+    p
+        a(href='#/edit-profile') Редакция

@@ -1,4 +1,4 @@
-header#header(ng-controller="LoginCtrl", ng-class="{ home: !identity.isAuthenticated() }")
+header#header(ng-class="{ home: !identity.isAuthenticated() }")
     a.neutral(href="#/")
         img#logo(src='images/logo.png', width='175', height='57', alt='logo')
     .right(ng-show="identity.isAuthenticated()")
@@ -8,4 +8,4 @@ header#header(ng-controller="LoginCtrl", ng-class="{ home: !identity.isAuthentic
                 .counter 34
             .button.logout(title='Излео', ng-click="logout()")
         a.neutral(href="#/profile")
-            img#prof-thumb(src='http://gwally.com/avatars/images/space_skeleton_150.jpg', width='48', height='48', alt="")
+            img#prof-thumb(ng-src='{{ avatarImgPrefix }}{{ identity.currentUser.avatarUrl }}', width='48', height='48', alt="")
