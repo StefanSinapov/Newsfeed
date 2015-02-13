@@ -9,6 +9,9 @@ module.exports = {
     findById: function(id, callback){
         User.findOne({_id: id}).exec(callback);
     },
+    findByUsername: function(username, callback){
+        User.findOne({username: username}).exec(callback);
+    },
     checkIfUsernameIsFree: function(username, callback){
         User.find({username : username}, function (err, data) {
             if (!data.length){
@@ -20,7 +23,6 @@ module.exports = {
             }
         });
     },
-    //TODO: add update avatar
     update: function(id, user, callback){
         User.update({ _id: id }, user, callback);
     }
