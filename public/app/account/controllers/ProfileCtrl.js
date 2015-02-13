@@ -14,12 +14,12 @@ app.controller('ProfileCtrl', function ($scope, $location, auth, usersData, iden
     // TODO: fix logout after update profile
     $scope.update = function (updatedUser) {
         usersData.update(updatedUser).then(function (data) {
-            console.log(data);
-            if(data.reason){
+            if(data.reason) {
                 notifier.success(data.reason);
             }
             if(data.avatarUrl) {
                 $scope.user.avatarUrl = data.avatarUrl;
+                identity.currentUser.avatarUrl = data.avatarUrl;
             }
             //auth.logout();
             //$location.path('/login');

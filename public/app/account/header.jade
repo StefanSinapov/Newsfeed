@@ -6,6 +6,6 @@ header#header(ng-class="{ home: !identity.isAuthenticated() }")
             .button.users(title='Потребители')
             .button.notific(title='Известявания')
                 .counter 34
-            .button.logout(title='Излео', ng-click="logout()")
+            .button.logout(title='Излео', ng-controller="LoginCtrl", ng-click="logout()")
         a.neutral(href="#/profile")
             img#prof-thumb(ng-src='{{ avatarImgPrefix }}{{ identity.currentUser.avatarUrl }}', width='48', height='48', alt="")

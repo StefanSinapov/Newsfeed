@@ -230,9 +230,10 @@ legend {
     font-size: 24px;
 }
 
-#general-info span.title {
+#general-info span.title, #general-info label.title {
     color: rgba(255, 255, 255, 0.7);
     font-size: inherit;
+    font-weight: inherit;
     margin-right: 17px;
 }
 
@@ -384,4 +385,16 @@ legend {
 
 .user-thumb > .small {
     color: #666;
+}
+
+/***/
+
+input[type="file"].avatar-upload {
+    position: absolute;
+    width: 150px; height: 150px;
+    padding: 0;
+    border: none;
+    display: block;
+    cursor: pointer;
+    opacity: 0;
 }

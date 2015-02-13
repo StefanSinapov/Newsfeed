@@ -1,0 +1,24 @@
+div.left
+    div(avatar-upload)
+form#general-info.left(name="updateUserForm")
+    p.name
+        input.editable(type='text', placeholder='Потребителско име', ng-model="user.username")
+    p
+        label.title(for="email") Емайл
+        input#email.editable(type='text', ng-model="user.email")
+    p
+        span.title Постове
+        | {{ user.posts }}
+    p
+        span.title Рейтинг
+        | {{ user.rating }}
+    hr
+    p
+        label.title(for="pass") Нове парола
+        input#pass.editable(type="password", ng-model="user.password")
+    p
+        label.title(for="confirm-pass") Парола за потвърждаане
+            strong *
+        input#confirm-pass.editable(type="password", ng-model="user.confirmPassword", required="required")
+    p
+        button(ng-click="update(user)", ng-disabled="updateUserForm.$invalid") З&agrave;пази
