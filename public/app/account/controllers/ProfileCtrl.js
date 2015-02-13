@@ -6,9 +6,10 @@ app.controller('ProfileCtrl', function ($scope, $location, auth, usersData, iden
 
     $scope.user = {
         username: identity.currentUser.username,
-        email: "to@be.added",
+        email: identity.currentUser.email,
         avatarUrl: identity.currentUser.avatarUrl,
-        posts: 123
+        posts: 123,
+        rating: 15.5
     };
 
     // TODO: fix logout after update profile
@@ -20,6 +21,7 @@ app.controller('ProfileCtrl', function ($scope, $location, auth, usersData, iden
             if(data.avatarUrl) {
                 $scope.user.avatarUrl = data.avatarUrl;
                 identity.currentUser.avatarUrl = data.avatarUrl;
+                $location.path("/profile");
             }
             //auth.logout();
             //$location.path('/login');

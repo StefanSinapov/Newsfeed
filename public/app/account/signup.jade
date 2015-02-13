@@ -4,7 +4,7 @@ form#auth-form(ng-controller="SignUpCtrl", name="signUpForm")
         div
             input(type='text', placeholder='Потребител', ng-model="user.username", required="required")
         div
-            input(type='email', placeholder='Емайл', ng-model="user.email")
+            input(type='email', placeholder='Емайл', ng-model="user.email", required="required")
         div
             input(type='password', placeholder='Парола', ng-model="user.password", ng-minlength="4", ng-maxlength="20", required="required")
         div

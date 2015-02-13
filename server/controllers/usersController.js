@@ -21,16 +21,24 @@ var getImageGuid = function (image) {
 
 module.exports = {
     createUser: function (req, res, next) {
+        if (!req.body.password || !req.body.confirmPassword) {
+            res.status(400);
+            return res.send({ reason: "Паролата липсва!" });
+        }
 
         if(req.body.password !== req.body.confirmPassword){
             res.status(400);
-            res.send({ reason: "Password and confirm password must be the same!"});
+            res.send({ reason: "Двете пароли трябва да са еднакви!"});
             return;
         }
 
+        // TODO: Add validation
         var newUserData = {
-            username: req.body.username
+            username: req.body.username,
+            email: req.body.email
         };
+
+        newUserData.roles = ["standard"]; // In order to avoid JSON injection for roles
 
         newUserData.salt = encryption.generateSalt();
         newUserData.hashPass = encryption.generateHashedPassword(newUserData.salt, req.body.password);

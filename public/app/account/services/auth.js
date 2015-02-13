@@ -9,6 +9,7 @@ app.factory('auth', function ($http, $q, identity, UsersResource, notifier) {
             var deferred = $q.defer();
 
             user = new UsersResource(user);
+
             user.$save().then(function() {
                 identity.currentUser = user;
                 deferred.resolve();

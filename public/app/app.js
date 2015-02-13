@@ -42,6 +42,11 @@ app.config(function ($routeProvider) {
             controller: 'ProfileCtrl',
             resolve: routeUserChecks.authenticated
         })
+        .when('/members', {
+            templateUrl: 'partials/members/members',
+            controller: 'MembersCtrl',
+            resolve: routeUserChecks.authenticated
+        })
         .otherwise({
             redirectTo: '/'
         });

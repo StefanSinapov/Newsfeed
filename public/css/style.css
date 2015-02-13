@@ -19,6 +19,7 @@ a {
     color: #845ccf;
     text-decoration: none;
     text-shadow: none;
+    outline: 0;
 }
 
 hr {
@@ -32,8 +33,12 @@ a:hover {
     border-bottom: 1px dotted;
 }
 
-a.neutral {
+a.neutral, a.block {
     border: none;
+}
+
+a.block {
+    display: block;
 }
 
 .small {

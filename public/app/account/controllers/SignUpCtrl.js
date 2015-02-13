@@ -7,7 +7,7 @@ app.controller('SignUpCtrl', function ($scope, $location, auth, notifier) {
         if (signUpForm.$valid) {
             if (user.password === user.confirmPassword) {
                 auth.signup(user).then(function () {
-                    notifier.success('Registration successful!');
+                    notifier.success('Регистрирване успешно!');
                     $location.path('/');
                 }, function (response) {
                     if (response.reason) {

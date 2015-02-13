@@ -3,7 +3,7 @@ header#header(ng-class="{ home: !identity.isAuthenticated() }")
         img#logo(src='images/logo.png', width='175', height='57', alt='logo')
     .right(ng-show="identity.isAuthenticated()")
         #options
-            .button.users(title='Потребители')
+            a.block.button.users(title='Потребители', href="#/members")
             .button.notific(title='Известявания')
                 .counter 34
             .button.logout(title='Излео', ng-controller="LoginCtrl", ng-click="logout()")
