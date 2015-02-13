@@ -111,10 +111,18 @@ module.exports = {
                     }
 
                     if(isNewAvatar){
-                        messages.updateAvatars(updatedUser.username, updatedUser.avatarUrl);
-                    }
+                        messages.updateAvatars(updatedUser.username, updatedUser.avatarUrl, function(err, updatedMessages){
+                            if(err){
+                                res.status(400).send({reason: 'Error updating messages ' + err});
+                                return;
+                            }
 
-                    res.status(200).send({avatarUrl: updatedUser.avatarUrl, reason: 'User updated successfully!'});
+                            res.status(200).send({avatarUrl: updatedUser.avatarUrl, reason: 'User updated successfully!'});
+                        });
+                    }
+                    else{
+                        res.status(200).send({avatarUrl: updatedUser.avatarUrl, reason: 'User updated successfully!'});
+                    }
                 });
             });
         });
