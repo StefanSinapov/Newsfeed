@@ -150,6 +150,11 @@ module.exports = {
         var currentUser = req.user;
         var blockedUsername = req.params.username;
 
+        if(blockedUsername === currentUser.username){
+            res.status(400).send({reason: 'Не можеш сам да се скриеш'});
+            return;
+        }
+
         users.addBlockedUsername(currentUser.username, blockedUsername, function (err, currentUser) {
 
             if (err) {

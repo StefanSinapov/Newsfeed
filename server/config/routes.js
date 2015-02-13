@@ -11,7 +11,7 @@ module.exports = function (app) {
         .put(auth.isAuthenticated, controllers.users.updateUser)
         .get(controllers.users.getAllUsers);
 
-    app.route('/api/users/:id', auth.isAuthenticated)
+    app.route('/api/users/:username', auth.isAuthenticated)
         .post(controllers.users.blockUser)
         .put(controllers.users.unBlockUser);
 

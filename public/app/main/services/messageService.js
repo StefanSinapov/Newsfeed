@@ -64,6 +64,12 @@ app.factory('MessageService', function ($q, $http, $resource) {
         likeMessage: function (id) {
             return putJson('/api/messages/' + id);
         },
+        blockUser: function(username){
+            return postJson('/api/users/'+ username);
+        },
+        unBlockUser: function(username){
+            return putJson('/api/users/'+ username);
+        },
         resource: $resource(apiRoute)
     };
 });

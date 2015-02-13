@@ -10,7 +10,7 @@ module.exports.init = function () {
         avatarUrl: String,
         content: String,
         datePublished: {type: Date, default: Date.now},
-        Likes: [{
+        likes: [{
             username: String,
             isCreatorNotified: {type: Boolean, default: false}
         }]

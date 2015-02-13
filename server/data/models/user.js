@@ -12,9 +12,7 @@ module.exports.init = function () {
         salt: String,
         hashPass: String,
         avatarUrl: { type: String, default: 'default-avatar.jpg'},
-        blockedUsers: [{
-            username: String
-        }],
+        blockedUsers: [String], //Usernames
         stats: {
             blocked: { type: Number, default: 0 },
             likes: { type: Number, default: 0}

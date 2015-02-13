@@ -7,6 +7,7 @@ module.exports = {
     createMessage: function (req, res, next) {
         //POST /api/messages
 
+        //TODO: validate
         data.users.findByUsername(req.user.username, function (err, currentUser) {
             if (err) {
                 console.log('Failed to find user ' + err);
@@ -38,12 +39,28 @@ module.exports = {
         });
     },
     getMessages: function (req, res, next) {
+        var currentUser = req.user;
+        var skip = req.query.skip || 0;
 
+        data.users.findByUsername(currentUser.username, function(err, user){
+            if(err){
+                res.status(400).send({reason: 'Failed to find user ' + err});
+            }
+
+            data.messages.getMessagesForUser(user, DEFAULT_PAGE_SIZE, skip, function(err, messages){
+                if(err){
+                    res.status(400).send({reason: 'Failed to get messages for user: ' + currentUser.username});
+                }
+
+                res.status(200).send(messages);
+            });
+        });
     },
     likeMessage: function (req, res, next) {
         var currentUser = req.user;
         var messageId = req.params.id;
 
+        //TODO: validate
         data.messages.addLikeToMessage(messageId, currentUser.username, function (err, message) {
             if (err) {
                 console.log('Failed to add like to message' + err);
