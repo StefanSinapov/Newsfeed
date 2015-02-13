@@ -1,12 +1,13 @@
 'use strict';
 
 var data = require('../data/');
+var DEFAULT_PAGE_SIZE = 20;
 
 module.exports = {
     createMessage: function (req, res, next) {
         //POST /api/messages
 
-        data.users.findByUsername(req.user.username, function (err, data) {
+        data.users.findByUsername(req.user.username, function (err, currentUser) {
             if (err) {
                 console.log('Failed to find user ' + err);
                 res.status(400);
@@ -15,8 +16,8 @@ module.exports = {
             }
 
             var newMessage = {
-                username: data.username,
-                avatarUrl: data.avatarUrl,
+                username: currentUser.username,
+                avatarUrl: currentUser.avatarUrl,
                 content: req.body.content
             };
 
@@ -40,6 +41,28 @@ module.exports = {
 
     },
     likeMessage: function (req, res, next) {
+        var currentUser = req.user;
+        var messageId = req.params.id;
 
+        data.messages.addLikeToMessage(messageId, currentUser.username, function (err, message) {
+            if (err) {
+                console.log('Failed to add like to message' + err);
+                res.status(400);
+                res.send({reason: 'Failed to like message'});
+                return;
+            }
+
+            data.users.addLikesPoints(message.username, function (err, user) {
+                if (err) {
+                    console.log('Failed to increase likes points ' + err);
+                    res.status(400);
+                    res.send({reason: 'Failed to increase likes points of creator'});
+                    return;
+                }
+
+                res.status(200);
+                res.send({reason: 'Message liked successfully'});
+            });
+        });
     }
 };

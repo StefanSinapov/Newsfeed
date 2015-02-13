@@ -4,15 +4,15 @@ var mongoose = require('mongoose');
 
 var Message;
 
-module.exports.init = function(){
+module.exports.init = function () {
     var messageSchema = mongoose.Schema({
-        username: { type: String, require: "{PATH} is required"},
+        username: {type: String, require: "{PATH} is required"},
         avatarUrl: String,
         content: String,
-        datePublished: { type: Date, default: Date.now },
+        datePublished: {type: Date, default: Date.now},
         Likes: [{
             username: String,
-            isCreatorNotified: Boolean
+            isCreatorNotified: {type: Boolean, default: false}
         }]
     });
 

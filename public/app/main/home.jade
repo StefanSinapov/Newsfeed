@@ -1,10 +1,10 @@
 div(ng-controller="LoginCtrl")
     div(ng-hide="identity.isAuthenticated()")
         div(login-form)
-    div(ng-show="identity.isAuthenticated()")
+    div(ng-show="identity.isAuthenticated()" ng-controller="MessagesCtrl")
         #status
-            textarea#status-field(rows='1', placeholder='Мисълта ти')
-            button Сп&ograve;дели
+            textarea#status-field(rows='1', placeholder='Мисълта ти' ng-model="message.content" required="required")
+            button(ng-click='send(message)') Сп&ograve;дели
         hr
         article.status
             .usr-info
