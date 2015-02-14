@@ -1,16 +1,15 @@
-/*
 'use strict';
 
 var socketio_jwt = require('socketio-jwt');
 var socket_io = require('socket.io');
 var jwt = require('jsonwebtoken');
 
-var clients = {};
+var clients = [];
 var secret = 'Return of the Jedi';
 
 function getToken(payload) {
     // The payload will be sent inside the token, it can be username, id etc.
-    var token = jwt.sign(payload, secret, { expiresInMinutes: 60*5 });
+    var token = jwt.sign(payload, secret, {expiresInMinutes: 60 * 5});
     return token;
 }
 
@@ -44,4 +43,4 @@ module.exports = {
     init: init,
     clients: clients,
     getToken: getToken
-};*/
+};

@@ -14,9 +14,6 @@ app.factory("Sockets", function(notifier) {
             .on('time', function (data) {
                 console.log('- broadcast: ' + data);
             })
-            .on('newMessage', function (data) {
-                console.log(data);
-            })
             .on('authenticated', function () {
                 console.log('- authenticated');
             })
