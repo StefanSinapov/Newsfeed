@@ -13,7 +13,7 @@ app.controller('MessagesCtrl', function ($scope, $location, identity, MessageSer
         var $likesContainer = angular.element("article.status[data-id='" + id + "']").find("p.likes-num"),
             parsedLikes = parseInt($likesContainer.html());
 
-        if (isNaN(parsedLikes)) {
+        if (!isNaN(parsedLikes)) {
             $likesContainer.html(parsedLikes + 1);
         } else {
             loadMessages();
