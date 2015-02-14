@@ -14,7 +14,7 @@ app.controller('MessagesCtrl', function ($scope, $location, identity, MessageSer
 
     $scope.send = function (message) {
         MessageService.createMessage(message)
-            .then(function (data) {
+            .then(function () {
                 notifier.success('Мисълта ти е споделена');
                 $scope.message.content = '';
             }, function (err) {
@@ -27,7 +27,7 @@ app.controller('MessagesCtrl', function ($scope, $location, identity, MessageSer
 
     $scope.likeMessage = function (id) {
         MessageService.likeMessage(id)
-            .then(function (data) {
+            .then(function () {
                 notifier.success('Успешно харесано');
                 loadMessages();
             }, function (err) {
@@ -39,7 +39,7 @@ app.controller('MessagesCtrl', function ($scope, $location, identity, MessageSer
 
     $scope.blockUser = function (username) {
         MessageService.blockUser(username)
-            .then(function (data) {
+            .then(function () {
                 notifier.success('Успешно заглушен');
                 loadMessages();
             }, function (err) {
@@ -49,15 +49,15 @@ app.controller('MessagesCtrl', function ($scope, $location, identity, MessageSer
             });
     };
 
-    $scope.loadMore = function(count){
+    $scope.loadMore = function (count) {
         MessageService.getMessages(count)
-            .then(function(data){
-                if(data.length > 0){
+            .then(function (data) {
+                if (data.length > 0) {
                     $scope.messages = $scope.messages.concat(data);
                 }
-            }, function(err){
+            }, function (err) {
                 console.log(err);
-                if(err.reason){
+                if (err.reason) {
                     notifier.error(err.reason);
                 }
             });

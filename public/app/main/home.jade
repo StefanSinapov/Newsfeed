@@ -36,4 +36,4 @@ div(ng-controller="LoginCtrl")
                         .stat-btn.mute(title='Заглуши' ng-click='blockUser(message.username)')
                 .content
                     | {{message.content}}
-        button(ng-click='loadMore(messages.length)') Зареди още
+        button(ng-click='loadMore(messages.length)' ng-show='messages.length % 20 === 0') Зареди още
