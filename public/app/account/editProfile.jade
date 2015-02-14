@@ -2,7 +2,7 @@ div.left
     div(avatar-upload)
 form#general-info.left(name="updateUserForm")
     p.name
-        input.editable(type='text', placeholder='Потребителско име', ng-model="user.username")
+        | {{ user.username }}
     p
         label.title(for="email") Емайл
         input#email.editable(type='text', ng-model="user.email")
