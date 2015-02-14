@@ -32,6 +32,11 @@ app.config(function ($routeProvider) {
             templateUrl: 'partials/account/login',
             controller: 'LoginCtrl'
         })
+        .when('/feed', {
+            templateUrl: '/partials/feed/feed',
+            controller: 'MessagesCtrl',
+            resolve: routeUserChecks.authenticated
+        })
         .when('/profile', {
             templateUrl: 'partials/account/profile',
             controller: 'ProfileCtrl',

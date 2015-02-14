@@ -1,9 +1,7 @@
-/* global app, angular */
+app.controller('ProfileCtrl', function ProfileCtrl($scope, $location, usersData, identity, notifier, Globals) {
+    "use strict";
 
-'use strict';
-
-app.controller('ProfileCtrl', function ($scope, $location, auth, usersData, identity, notifier) {
-
+    $scope.avatarImgPrefix = Globals.avatarImgPrefix;
     $scope.user = {
         username: identity.currentUser.username,
         email: identity.currentUser.email,
@@ -18,11 +16,16 @@ app.controller('ProfileCtrl', function ($scope, $location, auth, usersData, iden
             if(data.reason) {
                 notifier.success(data.reason);
             }
+
             if(data.avatarUrl) {
-                $scope.user.avatarUrl = data.avatarUrl;
                 identity.currentUser.avatarUrl = data.avatarUrl;
-                $location.path("/profile");
             }
+
+            if (data.email) {
+                identity.currentUser.email = data.email;
+            }
+
+            $location.path("/profile");
             //auth.logout();
             //$location.path('/login');
         }, function (err) {

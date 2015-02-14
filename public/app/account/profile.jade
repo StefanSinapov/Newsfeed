@@ -1,4 +1,4 @@
-img#avatar.left(src='http://gwally.com/avatars/images/space_skeleton_150.jpg', width='150', height='150', alt='avatar', ng-src='images/{{ user.avatarUrl }}')
+img#avatar.left(src='http://gwally.com/avatars/images/space_skeleton_150.jpg', width='150', height='150', alt='avatar', ng-src='{{ avatarImgPrefix }}{{ user.avatarUrl }}')
 #general-info.left
     p.name {{ user.username }}
     p
