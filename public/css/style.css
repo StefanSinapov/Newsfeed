@@ -7,19 +7,16 @@ body {
     color: #FFF;
 }
 
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+    display: none !important;
+}
+
 img {
     border: none;
 }
 
 p {
     margin: 0;
-}
-
-a {
-    color: #845ccf;
-    text-decoration: none;
-    text-shadow: none;
-    outline: 0;
 }
 
 hr {
@@ -29,7 +26,15 @@ hr {
     margin: 15px 0;
 }
 
-a:hover {
+a, span.link {
+    color: #845ccf;
+    text-decoration: none;
+    text-shadow: none;
+    outline: 0;
+    cursor: pointer;
+}
+
+a:hover, span.link:hover {
     border-bottom: 1px dotted;
 }
 
@@ -62,6 +67,8 @@ span.title {
 .ov-hidden {
     overflow: hidden;
 }
+
+/***/
 
 #sky {
     position: absolute;

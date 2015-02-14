@@ -14,4 +14,5 @@ div
         p(ng-hide="isUserDetails")
             a(href='#/edit-profile') Редакция
         p(ng-show="isUserDetails")
-            a(href="#") Заглуши
+            span.link(ng-click="mute()", ng-hide="user.isMuted") Заглуши
+            span.link(ng-click="unmute()", ng-show="user.isMuted") Отглуши

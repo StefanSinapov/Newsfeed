@@ -7,7 +7,12 @@ module.exports = {
     getMemberDetails: function(req, res) {
         users.getUserDetails(req.params.name, function (err, user) {
             res.status(200);
-            res.send(user);
+
+            if (user) {
+                res.send(user);
+            } else {
+                res.send({ message: "No such user", isNull: true });
+            }
         });
     }
 };
