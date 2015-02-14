@@ -172,6 +172,8 @@ module.exports = {
                     return;
                 }
 
+                users.calculateRankPoints(blockedUsername);
+
                 res.status(200);
                 res.send({reason: blockedUsername + ' blocked successfully'});
             });
@@ -195,6 +197,8 @@ module.exports = {
                     res.send({reason: 'Failde to decrease block points'});
                     return;
                 }
+
+                users.calculateRankPoints(blockedUsername);
 
                 res.status(200);
                 res.send({reason: blockedUsername + ' unblocked successfully'});

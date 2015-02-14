@@ -24,5 +24,11 @@ module.exports = {
             {},
             callback);
     },
+    getById: function (id, callback) {
+        Message.findOne({_id: id}, callback);
+    },
+    checkIfAlreadyLiked: function (id, username, callback) {
+        Message.findOne({_id: id, 'likes.$.username': username}, {}, {}, callback);
+    }
 
 };

@@ -39,5 +39,13 @@ module.exports = {
     },
     addLikesPoints: function(username, callback){
         User.update({username: username}, {$inc: {"stats.likes": 1}}, {}, callback);
+    },
+    calculateRankPoints: function(username){
+        User.findOne({username: username})
+            .exec(function(err, user){
+                console.log(user);
+                user.stats.rating = user.rating;
+                user.save();
+            });
     }
 };

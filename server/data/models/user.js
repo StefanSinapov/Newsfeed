@@ -15,7 +15,8 @@ module.exports.init = function () {
         blockedUsers: [String], //Usernames
         stats: {
             blocked: { type: Number, default: 0 },
-            likes: { type: Number, default: 0}
+            likes: { type: Number, default: 0},
+            rating: { type: Number, default: 0 }
         }
     });
 
@@ -25,9 +26,9 @@ module.exports.init = function () {
         }
     });
 
-    userSchema.virtual('stats.rating')
+    userSchema.virtual('rating')
         .get(function(){
-            return (this.stats.likes / Math.sqrt(this.stats.blocked));
+            return (this.stats.likes / (Math.sqrt(this.stats.blocked) || 1));
         });
 
     User = mongoose.model('User', userSchema);

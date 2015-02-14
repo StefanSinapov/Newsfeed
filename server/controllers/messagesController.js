@@ -42,13 +42,13 @@ module.exports = {
         var currentUser = req.user;
         var skip = req.query.skip || 0;
 
-        data.users.findByUsername(currentUser.username, function(err, user){
-            if(err){
+        data.users.findByUsername(currentUser.username, function (err, user) {
+            if (err) {
                 res.status(400).send({reason: 'Failed to find user ' + err});
             }
 
-            data.messages.getMessagesForUser(user, DEFAULT_PAGE_SIZE, skip, function(err, messages){
-                if(err){
+            data.messages.getMessagesForUser(user, DEFAULT_PAGE_SIZE, skip, function (err, messages) {
+                if (err) {
                     res.status(400).send({reason: 'Failed to get messages for user: ' + currentUser.username});
                 }
 
@@ -60,14 +60,33 @@ module.exports = {
         var currentUser = req.user;
         var messageId = req.params.id;
 
-        //TODO: validate
-        data.messages.addLikeToMessage(messageId, currentUser.username, function (err, message) {
+        data.messages.getById(messageId, function (err, message) {
             if (err) {
                 console.log('Failed to add like to message' + err);
                 res.status(400);
                 res.send({reason: 'Failed to like message'});
                 return;
             }
+
+            if(message.username === currentUser.username){
+                res.status(400).send({reason: 'Не може сам да си харесваш мисълта'});
+                return;
+            }
+
+            var alreadyLiked = false;
+            message.likes.map(function (like) {
+                if (like.username === currentUser.username) {
+                    alreadyLiked = true;
+                }
+            });
+
+            if (alreadyLiked) {
+                res.status(400).send({reason: 'Вече си харесал таз мисъл'});
+                return;
+            }
+
+            message.likes.push({username: currentUser.username});
+            message.save();
 
             data.users.addLikesPoints(message.username, function (err, user) {
                 if (err) {
@@ -76,6 +95,8 @@ module.exports = {
                     res.send({reason: 'Failed to increase likes points of creator'});
                     return;
                 }
+
+                data.users.calculateRankPoints(message.username);
 
                 res.status(200);
                 res.send({reason: 'Message liked successfully'});
