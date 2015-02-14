@@ -1,13 +1,19 @@
 .ov-hidden
     span.title Потребители
         .right
-            input(type='text', placeholder='')
+            input(type='text', placeholder='' ng-model="username")
             | &nbsp;
-            button Търси
+            button(ng-click='search(username)') Търси
 hr
-.user-thumb
-    img(src='http://gwally.com/avatars/images/space_skeleton_150.jpg', width='40', height='40', alt='')
-    br
-    a(href='') Pesho_kalibrata
-    br
-    span.small 123 поста
+
+div(ng-repeat="member in members")
+    .user-thumb
+        img(src='{{ avatarImgPrefix }}{{ member.avatarUrl }}', width='40', height='40', alt='')
+        br
+        a(href='') {{member.username}}
+        br
+        span.small {{member.stats.rating | number:2 }} рейт
+        br
+        span.small {{member.stats.likes}} лайка
+        br
+        span.small {{member.stats.blocked}} заглушавяния

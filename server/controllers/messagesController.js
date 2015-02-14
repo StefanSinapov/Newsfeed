@@ -1,6 +1,7 @@
 'use strict';
 
 var data = require('../data/');
+var clients = require('../config/socket').clients;
 var DEFAULT_PAGE_SIZE = 20;
 
 module.exports = {
@@ -29,7 +30,10 @@ module.exports = {
                     return;
                 }
 
-                //TODO: add socket functions
+                for(var client in clients){
+                    clients[client].emit('newMessage', data);
+                }
+
                 res.status(200);
                 res.send({
                     id: data._id,
@@ -68,7 +72,7 @@ module.exports = {
                 return;
             }
 
-            if(message.username === currentUser.username){
+            if (message.username === currentUser.username) {
                 res.status(400).send({reason: 'Не може сам да си харесваш мисълта'});
                 return;
             }

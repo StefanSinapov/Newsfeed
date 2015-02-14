@@ -25,8 +25,7 @@ div
                 p.info
                     a(href='#/member/{{ message.username }}') {{message.username}}
                     br
-                    span.small 123 поста
-                    span.small 15 рейт
+                    span.small {{message.datePublished | date:"dd/MM/yyyy 'at' h:mma"}}
                 .right
                     p.likes-num {{message.likes.length}}
                     .stat-btn.like(title='Харесай' ng-click='likeMessage(message._id)')

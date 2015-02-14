@@ -141,23 +141,15 @@ module.exports = {
         });
     },
     getAllUsers: function (req, res, next) {
-        /*User.aggregate(
-            { $project: {
-                username:
-            }}
-        )
-            //.skip(DEFAULT_PAGE_SIZE * (page - 1))
-            //.limit(DEFAULT_PAGE_SIZE)
-            //.sort(orderType + 'rank')
-            .select('_id username avatarUrl, stats.likes, stats')//city phone roles items
-            .exec(function (error, result) {
-                if (error) {
-                    res.status(400);
-                    res.send(error);
-                } else {
-                    res.send(result);
-                }
-            });*/
+        var username = req.query.username || '';
+        users.getSortedByRank(username, function(err, users){
+            if(err){
+                console.log("Failed loading users");
+                res.status(400).send({reason: "Failed loading users", error: err});
+            }
+
+            res.status(200).send(users);
+        });
     },
     blockUser: function (req, res, next) {
         var currentUser = req.user;

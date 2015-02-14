@@ -1,4 +1,4 @@
-app.controller('MessagesCtrl', function ($scope, $location, identity, MessageService, notifier) {
+app.controller('MessagesCtrl', function ($scope, $location, identity, MessageService, notifier, auth) {
     'use strict';
 
     function loadMessages() {
@@ -10,6 +10,17 @@ app.controller('MessagesCtrl', function ($scope, $location, identity, MessageSer
 
     if (identity.isAuthenticated()) {
         loadMessages();
+    }
+
+    if(identity.socket){
+        identity.socket.on('newMessage', function (data) {
+            $scope.messages= [data].concat($scope.messages);
+            $scope.$apply();
+        });
+    }
+    else{
+        auth.logout();
+        $location.path("/");
     }
 
     $scope.send = function (message) {
