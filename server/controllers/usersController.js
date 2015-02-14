@@ -80,8 +80,28 @@ module.exports = {
                     res.status(400).send({reason: 'Error updating user: ' + err});
                     return;
                 }
+                
+                if (!fields.confirmPassword) {
+                    res.status(400).send({ reason: "Няма парола за потвърждение!" });
+                    return;
+                }
 
-                console.log(fields);
+                var hashPass = encryption.generateHashedPassword(user.salt, fields.confirmPassword);
+
+                if (hashPass !== user.hashPass) {
+                    res.status(400).send({ reason: "Грешна парола за потвърждение!" });
+                    return;
+                }
+
+                if (fields.password && fields.repeatPassword) {
+                    if ((fields.password !== fields.repeatPassword) || fields.password.length < 6) {
+                        res.status(400).send({ reason: "Грешка при обработка на новата парола! Въведи отново." });
+                        return;
+                    } else {
+                        user.salt = encryption.generateSalt();
+                        user.hashPass = encryption.generateHashedPassword(user.salt, fields.password);
+                    }
+                }
 
                 if (files.image) {
 
@@ -101,10 +121,6 @@ module.exports = {
                     isNewAvatar = true;
                 }
 
-                if (fields.password && fields.password.length > 5) {
-                    user.salt = encryption.generateSalt();
-                    user.hashPass = encryption.generateHashedPassword(user.salt, fields.password);
-                }
 
                 // TODO: Validation
                 if (fields.email) {

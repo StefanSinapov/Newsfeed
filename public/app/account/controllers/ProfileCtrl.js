@@ -6,8 +6,8 @@ app.controller('ProfileCtrl', function ProfileCtrl($scope, $location, usersData,
         username: identity.currentUser.username,
         email: identity.currentUser.email,
         avatarUrl: identity.currentUser.avatarUrl,
-        posts: 123,
-        rating: 15.5
+        posts: "NOT_SET",
+        rating: identity.currentUser.stats.rating
     };
 
     // TODO: fix logout after update profile
@@ -30,7 +30,7 @@ app.controller('ProfileCtrl', function ProfileCtrl($scope, $location, usersData,
             //$location.path('/login');
         }, function (err) {
             if(err.reason){
-                notifier.success(err.reason);
+                notifier.error(err.reason);
             }
         });
     };
