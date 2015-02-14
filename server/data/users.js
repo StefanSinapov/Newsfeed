@@ -43,9 +43,15 @@ module.exports = {
     calculateRankPoints: function(username){
         User.findOne({username: username})
             .exec(function(err, user){
-                console.log(user);
                 user.stats.rating = user.rating;
                 user.save();
             });
+    },
+    getSortedByRank: function(username, callback){
+        User.find()
+            .where({username: new RegExp(username, "i")})
+            .sort({'stats.rating': -1})
+            .select('username email avatarUrl stats')
+            .exec(callback);
     }
 };

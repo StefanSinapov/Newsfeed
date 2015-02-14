@@ -70,6 +70,14 @@ app.factory('MessageService', function ($q, $http, $resource) {
         unBlockUser: function(username){
             return putJson('/api/users/'+ username);
         },
+        getUsers: function(username){
+            if(username){
+                username = '?username=' + username;
+            }else{
+                username = '';
+            }
+            return getJson('/api/users/' + username);
+        },
         resource: $resource(apiRoute)
     };
 });
