@@ -51,8 +51,10 @@ app.controller('MessagesCtrl', function ($scope, $location, identity, MessageSer
     $scope.blockUser = function (username) {
         MessageService.blockUser(username)
             .then(function () {
-                notifier.success('Успешно заглушен');
+                identity.currentUser.blockedUsers.push(username);
                 loadMessages();
+
+                notifier.success('Успешно заглушен');
             }, function (err) {
                 if (err.reason) {
                     notifier.error(err.reason);
