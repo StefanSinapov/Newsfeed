@@ -20,6 +20,9 @@ module.exports = function (app) {
         .get('/api/messages/', controllers.messages.getMessages)
         .put('/api/messages/:id', controllers.messages.likeMessage);
 
+    app.all('/api/members/*', auth.isAuthenticated)
+        //.get('/api/members/', controllers.members.getAllMembers)
+        .get('/api/members/:name', controllers.members.getMemberDetails);
 
     app.post('/login', auth.login);
     app.post('/logout', auth.logout);

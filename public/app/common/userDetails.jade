@@ -1,0 +1,17 @@
+div
+    img#avatar.left(width='150', height='150', alt='avatar', ng-src='{{ avatarImgPrefix }}{{ user.avatarUrl }}')
+    #general-info.left
+        p.name {{ user.username }}
+        p
+            span.title Поща
+            | {{ user.email }}
+        p
+            span.title Постове
+            | {{ user.posts }}
+        p
+            span.title Рейтинг
+            | {{ user.rating }}
+        p(ng-hide="isUserDetails")
+            a(href='#/edit-profile') Редакция
+        p(ng-show="isUserDetails")
+            a(href="#") Заглуши

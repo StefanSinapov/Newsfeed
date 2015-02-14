@@ -12,6 +12,11 @@ module.exports = {
     findByUsername: function (username, callback) {
         User.findOne({username: username}).exec(callback);
     },
+    getUserDetails: function(username, callback) {
+        User.findOne({username: username})
+            .select("username email stats avatarUrl")
+            .exec(callback);
+    },
     update: function (id, user, callback) {
         User.update({_id: id}, user, callback);
     },

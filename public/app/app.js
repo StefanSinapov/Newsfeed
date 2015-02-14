@@ -7,11 +7,11 @@ var app = angular.module('app', ['ngResource', 'ngRoute']).value('toastr', toast
 app.config(function ($routeProvider) {
 
     var routeUserChecks = {
-        adminRole: {
-            authenticate: function (auth) {
-                return auth.isAuthorizedForRole('admin');
-            }
-        },
+        //adminRole: {
+        //    authenticate: function (auth) {
+        //        return auth.isAuthorizedForRole('admin');
+        //    }
+        //},
         authenticated: {
             authenticate: function (auth) {
                 return auth.isAuthenticated();
@@ -50,6 +50,11 @@ app.config(function ($routeProvider) {
         .when('/members', {
             templateUrl: 'partials/members/members',
             controller: 'MembersCtrl',
+            resolve: routeUserChecks.authenticated
+        })
+        .when('/member/:name', {
+            templateUrl: 'partials/members/profile',
+            controller: 'MemberDetailsCtrl',
             resolve: routeUserChecks.authenticated
         })
         .otherwise({
