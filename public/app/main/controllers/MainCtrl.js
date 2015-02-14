@@ -1,5 +1,7 @@
-app.controller("MainCtrl", function MainCtrl($scope, identity) {
+app.controller("MainCtrl", function MainCtrl($scope, $location, identity) {
     "use strict";
 
-    $scope.identity = identity;
+    if (identity.isAuthenticated()) {
+        $location.path("/feed");
+    }
 });

@@ -8,7 +8,10 @@ app.factory('usersData', function ($http, $q, identity) {
         var formData = new FormData();
         formData.append('_id', identity.currentUser._id);
         formData.append('username', user.username);
-        formData.append('password', user.password || '');
+        formData.append('password', user.password);
+        formData.append('repeatPassword', user.repeatPassword);
+        formData.append('confirmPassword', user.confirmPassword);
+        formData.append('email', user.email);
         formData.append('image', user.image);
 
         return formData;

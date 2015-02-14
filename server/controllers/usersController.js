@@ -63,23 +63,25 @@ module.exports = {
         });
     },
     updateUser: function (req, res, next) {
-
         if (!fs.existsSync(DEFAULT_UPLOAD_DIRECTORY)) {
             fs.mkdirSync(DEFAULT_UPLOAD_DIRECTORY);
         }
+
         var isNewAvatar = false;
         var form = new formidable.IncomingForm();
+
         form.encoding = 'utf-8';
         form.uploadDir = DEFAULT_UPLOAD_DIRECTORY;
         form.keepExtensions = true;
 
         form.parse(req, function (err, fields, files) {
-
             users.findById(fields._id, function (err, user) {
                 if (err || !user) {
                     res.status(400).send({reason: 'Error updating user: ' + err});
                     return;
                 }
+
+                console.log(fields);
 
                 if (files.image) {
 
@@ -104,24 +106,35 @@ module.exports = {
                     user.hashPass = encryption.generateHashedPassword(user.salt, fields.password);
                 }
 
+                // TODO: Validation
+                if (fields.email) {
+                    user.email = fields.email;
+                }
+
                 user.save(function (err, updatedUser, numberAffected) {
+                    var successObj = {
+                        avatarUrl: updatedUser.avatarUrl,
+                        email: updatedUser.email,
+                        reason: "Профил ъпдейтнат!"
+                    };
+
                     if (err) {
                         res.status(400).send({reason: 'Error updating user: ' + err});
                         return;
                     }
 
-                    if(isNewAvatar){
-                        messages.updateAvatars(updatedUser.username, updatedUser.avatarUrl, function(err, updatedMessages){
-                            if(err){
+                    if(isNewAvatar) {
+                        messages.updateAvatars(updatedUser.username, updatedUser.avatarUrl, function(err, updatedMessages) {
+                            if(err) {
                                 res.status(400).send({reason: 'Error updating messages ' + err});
                                 return;
                             }
 
-                            res.status(200).send({avatarUrl: updatedUser.avatarUrl, reason: 'User updated successfully!'});
+                            res.status(200).send(successObj);
                         });
                     }
-                    else{
-                        res.status(200).send({avatarUrl: updatedUser.avatarUrl, reason: 'User updated successfully!'});
+                    else {
+                        res.status(200).send(successObj);
                     }
                 });
             });
