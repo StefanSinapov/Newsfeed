@@ -5,7 +5,23 @@ app.controller('MessagesCtrl', function ($scope, $location, identity, MessageSer
         MessageService.getMessages()
             .then(function (data) {
                 $scope.messages = data;
+                console.log(data);
             });
+    }
+
+    function renderLikedMessage(id) {
+        var $likesContainer = angular.element("article.status[data-id='" + id + "']").find("p.likes-num"),
+            parsedLikes = parseInt($likesContainer.html());
+
+        if (isNaN(parsedLikes)) {
+            $likesContainer.html(parsedLikes + 1);
+        } else {
+            loadMessages();
+        }
+    }
+
+    function renderMutedMessages(username) {
+        angular.element("article.status[data-user='" + username + "']").fadeOut(250);
     }
 
     if (identity.isAuthenticated()) {
@@ -29,7 +45,6 @@ app.controller('MessagesCtrl', function ($scope, $location, identity, MessageSer
                 notifier.success('Мисълта ти е споделена');
                 $scope.message.content = '';
             }, function (err) {
-                console.log(err);
                 if (err.reason) {
                     notifier.error(err.reason);
                 }
@@ -39,8 +54,8 @@ app.controller('MessagesCtrl', function ($scope, $location, identity, MessageSer
     $scope.likeMessage = function (id) {
         MessageService.likeMessage(id)
             .then(function () {
+                renderLikedMessage(id);
                 notifier.success('Успешно харесано');
-                loadMessages();
             }, function (err) {
                 if (err.reason) {
                     notifier.error(err.reason);
@@ -52,7 +67,7 @@ app.controller('MessagesCtrl', function ($scope, $location, identity, MessageSer
         MessageService.blockUser(username)
             .then(function () {
                 identity.currentUser.blockedUsers.push(username);
-                loadMessages();
+                renderMutedMessages(username);
 
                 notifier.success('Успешно заглушен');
             }, function (err) {

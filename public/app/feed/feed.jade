@@ -19,7 +19,7 @@ div
     //        | Test 1 2 3 яаояаоояоаиш sfdsfs e wr
     //        a(href='') #tag
     div(ng-repeat="message in messages")
-        article.status
+        article.status(data-id="{{ message._id }}", data-user="{{ message.username }}")
             .usr-info
                 img.left(src='{{ avatarImgPrefix }}{{ message.avatarUrl }}', width='35', height='35', alt='')
                 p.info
