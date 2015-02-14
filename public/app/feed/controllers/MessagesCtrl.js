@@ -15,6 +15,7 @@ app.controller('MessagesCtrl', function ($scope, $location, identity, MessageSer
     if(identity.socket){
         identity.socket.on('newMessage', function (data) {
             $scope.messages= [data].concat($scope.messages);
+            $scope.$apply();
         });
     }
     else{

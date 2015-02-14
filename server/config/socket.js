@@ -4,7 +4,7 @@ var socketio_jwt = require('socketio-jwt');
 var socket_io = require('socket.io');
 var jwt = require('jsonwebtoken');
 
-var clients = [];
+var clients = {};
 var secret = 'Return of the Jedi';
 
 function getToken(payload) {

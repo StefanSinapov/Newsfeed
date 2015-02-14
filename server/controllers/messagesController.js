@@ -39,8 +39,6 @@ module.exports = {
                     id: data._id,
                     datePublished: data.datePublished
                 });
-
-
             });
         });
     },
