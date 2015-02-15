@@ -20,6 +20,8 @@ module.exports.init = function () {
         }
     });
 
+    userSchema.index({username: 1, 'stats.rating': -1});
+
     userSchema.method({
         authenticate: function(password) {
             return encryption.generateHashedPassword(this.salt, password) === this.hashPass;
