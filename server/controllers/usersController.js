@@ -9,6 +9,7 @@ var messages = require('../data/messages');
 /*var DEFAULT_PAGE_SIZE = 10;*/
 var DEFAULT_UPLOAD_DIRECTORY = './public/images';
 var DEFAULT_AVATAR = 'default-avatar.jpg';
+var UNDEFINED = "undefined";
 
 var getImageGuid = function (image) {
     var guidIndex = image.path.lastIndexOf('/');
@@ -80,8 +81,8 @@ module.exports = {
                     res.status(400).send({reason: 'Error updating user: ' + err});
                     return;
                 }
-                
-                if (!fields.confirmPassword) {
+
+                if (fields.confirmPassword === UNDEFINED) {
                     res.status(400).send({ reason: "Няма парола за потвърждение!" });
                     return;
                 }
@@ -93,13 +94,15 @@ module.exports = {
                     return;
                 }
 
-                if (fields.password && fields.repeatPassword) {
+                if (fields.password !== UNDEFINED && fields.repeatPassword !== UNDEFINED) {
                     if ((fields.password !== fields.repeatPassword) || fields.password.length < 6) {
                         res.status(400).send({ reason: "Грешка при обработка на новата парола! Въведи отново." });
                         return;
                     } else {
                         user.salt = encryption.generateSalt();
                         user.hashPass = encryption.generateHashedPassword(user.salt, fields.password);
+
+                        console.log(user.hashPass);
                     }
                 }
 
