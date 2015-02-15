@@ -25,11 +25,11 @@ div
                 p.info
                     a(href='#/member/{{ message.username }}') {{message.username}}
                     br
-                    span.small {{message.datePublished | date:"dd/MM/yyyy 'at' h:mma"}}
+                    span.small {{message.datePublished | date:"dd/MM/yyyy 'в' hh:mm"}}
                 .right
                     p.likes-num {{message.likes.length}}
                     .stat-btn.like(title='Харесай' ng-click='likeMessage(message._id)')
                     .stat-btn.mute(title='Заглуши' ng-click='blockUser(message.username)')
             .content
                 | {{message.content}}
-    button(ng-click='loadMore(messages.length)' ng-show='messages.length % 20 === 0') Зареди още
+    button(ng-click='loadMore(messages.length)' ng-show='isMoreMessages') Зареди още

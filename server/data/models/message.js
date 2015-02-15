@@ -16,7 +16,6 @@ module.exports.init = function () {
         }]
     });
 
-    //Todo: reverse order of date
     messageSchema.index({username: 1, date: -1});
 
     Message = mongoose.model('Message', messageSchema);
