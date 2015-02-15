@@ -19,6 +19,21 @@ app.factory("Sockets", function(notifier) {
             })
             .on('disconnect', function () {
                 console.log('- disconnected');
+            })
+            .on('likeNotification', function(data) {
+                if(data.username){
+                    notifier.success(data.username + ' хареса ваш пост!');
+                }
+            })
+            .on('blockNotification', function(data) {
+                if(data.username){
+                    notifier.warning(data.username + ' ви заглуши!');
+                }
+            })
+            .on('unBlockNotification', function(data) {
+                if(data.username){
+                    notifier.success(data.username + ' премахна заглушаването ви!');
+                }
             });
 
         return socket;

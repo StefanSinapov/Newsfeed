@@ -3,12 +3,12 @@
 var fs = require("fs");
 var formidable = require('formidable');
 var encryption = require('../utilities/encryption');
-/*var User = require('mongoose').model('User');*/
+var clients = require('../config/socket').clients;
 var users = require('../data/users');
 var messages = require('../data/messages');
-/*var DEFAULT_PAGE_SIZE = 10;*/
 var DEFAULT_UPLOAD_DIRECTORY = './public/images';
 var DEFAULT_AVATAR = 'default-avatar.jpg';
+
 
 var getImageGuid = function (image) {
     var guidIndex = image.path.lastIndexOf('/');
@@ -23,12 +23,12 @@ module.exports = {
     createUser: function (req, res, next) {
         if (!req.body.password || !req.body.confirmPassword) {
             res.status(400);
-            return res.send({ reason: "Паролата липсва!" });
+            return res.send({reason: "Паролата липсва!"});
         }
 
-        if(req.body.password !== req.body.confirmPassword){
+        if (req.body.password !== req.body.confirmPassword) {
             res.status(400);
-            res.send({ reason: "Двете пароли трябва да са еднакви!"});
+            res.send({reason: "Двете пароли трябва да са еднакви!"});
             return;
         }
 
@@ -47,14 +47,14 @@ module.exports = {
             if (err) {
                 console.log('Failed to register new user: ' + err);
                 res.status(400);
-                res.send({ reason: err.toString() });
+                res.send({reason: err.toString()});
                 return;
             }
 
             req.logIn(user, function (err) {
                 if (err) {
                     res.status(400);
-                    res.send({ reason: err.toString() });
+                    res.send({reason: err.toString()});
                     return;
                 }
 
@@ -80,22 +80,22 @@ module.exports = {
                     res.status(400).send({reason: 'Error updating user: ' + err});
                     return;
                 }
-                
+
                 if (!fields.confirmPassword) {
-                    res.status(400).send({ reason: "Няма парола за потвърждение!" });
+                    res.status(400).send({reason: "Няма парола за потвърждение!"});
                     return;
                 }
 
                 var hashPass = encryption.generateHashedPassword(user.salt, fields.confirmPassword);
 
                 if (hashPass !== user.hashPass) {
-                    res.status(400).send({ reason: "Грешна парола за потвърждение!" });
+                    res.status(400).send({reason: "Грешна парола за потвърждение!"});
                     return;
                 }
 
                 if (fields.password && fields.repeatPassword) {
                     if ((fields.password !== fields.repeatPassword) || fields.password.length < 6) {
-                        res.status(400).send({ reason: "Грешка при обработка на новата парола! Въведи отново." });
+                        res.status(400).send({reason: "Грешка при обработка на новата парола! Въведи отново."});
                         return;
                     } else {
                         user.salt = encryption.generateSalt();
@@ -105,9 +105,9 @@ module.exports = {
 
                 if (files.image) {
 
-                   /* if (process.env.NODE_ENV) {
-                        return res.status(403).send({reason: 'Changing profile photos has been disabled for security reasons!'});
-                    }*/
+                    /* if (process.env.NODE_ENV) {
+                     return res.status(403).send({reason: 'Changing profile photos has been disabled for security reasons!'});
+                     }*/
 
                     // removes the old image
                     var oldImagePath = DEFAULT_UPLOAD_DIRECTORY + '/' + user.avatarUrl;
@@ -139,9 +139,9 @@ module.exports = {
                         return;
                     }
 
-                    if(isNewAvatar) {
-                        messages.updateAvatars(updatedUser.username, updatedUser.avatarUrl, function(err, updatedMessages) {
-                            if(err) {
+                    if (isNewAvatar) {
+                        messages.updateAvatars(updatedUser.username, updatedUser.avatarUrl, function (err, updatedMessages) {
+                            if (err) {
                                 res.status(400).send({reason: 'Error updating messages ' + err});
                                 return;
                             }
@@ -158,8 +158,8 @@ module.exports = {
     },
     getAllUsers: function (req, res, next) {
         var username = req.query.username || '';
-        users.getSortedByRank(username, function(err, users){
-            if(err){
+        users.getSortedByRank(username, function (err, users) {
+            if (err) {
                 console.log("Failed loading users");
                 res.status(400).send({reason: "Failed loading users", error: err});
             }
@@ -171,12 +171,12 @@ module.exports = {
         var currentUser = req.user;
         var blockedUsername = req.params.username;
 
-        if(blockedUsername === currentUser.username){
+        if (blockedUsername === currentUser.username) {
             res.status(400).send({reason: 'Не можеш сам да се скриеш'});
             return;
         }
 
-        users.addBlockedUsername(currentUser.username, blockedUsername, function (err, currentUser) {
+        users.addBlockedUsername(currentUser.username, blockedUsername, function (err) {
 
             if (err) {
                 console.log('Failed to add blocked username to collection ' + err);
@@ -185,7 +185,7 @@ module.exports = {
                 return;
             }
 
-            users.addBlockPoint(blockedUsername, function (err, blockedUser) {
+            users.addBlockPoint(blockedUsername, function (err) {
                 if (err) {
                     console.log('Failed to increase block points' + err);
                     res.status(400);
@@ -195,31 +195,39 @@ module.exports = {
 
                 users.calculateRankPoints(blockedUsername);
 
+                if (clients[blockedUsername]) {
+                    clients[blockedUsername].emit('blockNotification', {username: currentUser.username});
+                }
+
                 res.status(200);
                 res.send({reason: blockedUsername + ' blocked successfully'});
             });
         });
     },
-    unBlockUser: function(req, res, next){
+    unBlockUser: function (req, res, next) {
         var currentUser = req.user;
         var blockedUsername = req.params.username;
 
-        users.removeBlockedUsername(currentUser.username, blockedUsername, function(err, currentUser){
-            if(err){
+        users.removeBlockedUsername(currentUser.username, blockedUsername, function (err) {
+            if (err) {
                 console.log('Failed to remove blocked username from collection ' + err);
                 res.status(400);
                 res.send({reason: 'Failed to remove block'});
             }
 
-            users.removeBlockPoint(blockedUsername, function(err, blockedUser){
-                if(err){
+            users.removeBlockPoint(blockedUsername, function (err) {
+                if (err) {
                     console.log('Failed to decrease block points ' + err);
                     res.status(400);
-                    res.send({reason: 'Failde to decrease block points'});
+                    res.send({reason: 'Failed to decrease block points'});
                     return;
                 }
 
                 users.calculateRankPoints(blockedUsername);
+
+                if (clients[blockedUsername]) {
+                    clients[blockedUsername].emit('unBlockNotification', {username: currentUser.username});
+                }
 
                 res.status(200);
                 res.send({reason: blockedUsername + ' unblocked successfully'});

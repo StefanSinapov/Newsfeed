@@ -30,7 +30,7 @@ module.exports = {
                     return;
                 }
 
-                for(var client in clients){
+                for (var client in clients) {
                     clients[client].emit('newMessage', data);
                 }
 
@@ -101,6 +101,10 @@ module.exports = {
                 }
 
                 data.users.calculateRankPoints(message.username);
+
+                if (clients[message.username]) {
+                    clients[message.username].emit('likeNotification', {username: currentUser.username});
+                }
 
                 res.status(200);
                 res.send({reason: 'Message liked successfully'});
