@@ -1,11 +1,12 @@
 app.controller('MessagesCtrl', function ($scope, $location, identity, MessageService, notifier, auth) {
     'use strict';
 
+    $scope.isMoreMessages = true;
+
     function loadMessages() {
         MessageService.getMessages()
             .then(function (data) {
                 $scope.messages = data;
-                console.log(data);
             });
     }
 
@@ -28,27 +29,34 @@ app.controller('MessagesCtrl', function ($scope, $location, identity, MessageSer
         loadMessages();
     }
 
-    if(identity.socket){
+    if (identity.socket) {
         identity.socket.on('newMessage', function (data) {
-            $scope.messages= [data].concat($scope.messages);
+            $scope.messages = [data].concat($scope.messages);
             $scope.$apply();
         });
     }
-    else{
+    else {
         auth.logout();
         $location.path("/");
     }
 
     $scope.send = function (message) {
-        MessageService.createMessage(message)
-            .then(function () {
-                notifier.success('Мисълта ти е споделена');
-                $scope.message.content = '';
-            }, function (err) {
-                if (err.reason) {
-                    notifier.error(err.reason);
-                }
-            });
+        if (!!message) {
+            if (message.content.length) {
+                MessageService.createMessage(message)
+                    .then(function () {
+                        notifier.success('Мисълта ти е споделена');
+                        $scope.message = undefined;
+                    }, function (err) {
+                        if (err.reason) {
+                            notifier.error(err.reason);
+                        }
+                    });
+            }
+        }
+        else {
+            notifier.error('Трябва да въведеш някакъв текст');
+        }
     };
 
     $scope.likeMessage = function (id) {
@@ -81,6 +89,9 @@ app.controller('MessagesCtrl', function ($scope, $location, identity, MessageSer
         MessageService.getMessages(count)
             .then(function (data) {
                 if (data.length > 0) {
+                    if (data.length < 20) {
+                        $scope.isMoreMessages = false;
+                    }
                     $scope.messages = $scope.messages.concat(data);
                 }
             }, function (err) {
