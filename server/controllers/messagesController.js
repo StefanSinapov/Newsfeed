@@ -8,39 +8,45 @@ module.exports = {
     createMessage: function (req, res, next) {
         //POST /api/messages
 
-        //TODO: validate
-        data.users.findByUsername(req.user.username, function (err, currentUser) {
-            if (err) {
-                console.log('Failed to find user ' + err);
-                res.status(400);
-                res.send({reason: 'Failed to find user'});
-                return;
-            }
+        if(!!req.body.content){
+            if(req.body.content.length){
+                data.users.findByUsername(req.user.username, function (err, currentUser) {
+                    if (err) {
+                        console.log('Failed to find user ' + err);
+                        res.status(400);
+                        res.send({reason: 'Failed to find user'});
+                        return;
+                    }
 
-            var newMessage = {
-                username: currentUser.username,
-                avatarUrl: currentUser.avatarUrl,
-                content: req.body.content
-            };
+                    var newMessage = {
+                        username: currentUser.username,
+                        avatarUrl: currentUser.avatarUrl,
+                        content: req.body.content
+                    };
 
-            data.messages.create(newMessage, function (err, data) {
-                if (err) {
-                    res.status(400);
-                    res.send({reason: 'Failed to create new message'});
-                    return;
-                }
+                    data.messages.create(newMessage, function (err, data) {
+                        if (err) {
+                            res.status(400);
+                            res.send({reason: 'Failed to create new message'});
+                            return;
+                        }
 
-                for (var client in clients) {
-                    clients[client].emit('newMessage', data);
-                }
+                        for (var client in clients) {
+                            clients[client].emit('newMessage', data);
+                        }
 
-                res.status(200);
-                res.send({
-                    id: data._id,
-                    datePublished: data.datePublished
+                        res.status(200);
+                        res.send({
+                            id: data._id,
+                            datePublished: data.datePublished
+                        });
+                    });
                 });
-            });
-        });
+            }
+        }
+        else{
+            res.status(400).send({reason: 'Съобщенията не могат да са празни'});
+        }
     },
     getMessages: function (req, res, next) {
         var currentUser = req.user;
